@@ -3,7 +3,7 @@ package com.tim_ohagan.interview.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InterviewService {
+public class ArraysService {
 
     public boolean isAnagram(String str1, String str2) {
         if (str1.length() != str2.length()) {
