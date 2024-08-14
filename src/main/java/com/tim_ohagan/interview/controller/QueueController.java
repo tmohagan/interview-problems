@@ -17,4 +17,19 @@ public class QueueController {
     public boolean isStackEmpty() {
         return queueService.isEmpty();
     }
+
+    @PostMapping("/enqueue")
+    public void enqueue(@RequestParam String item) {
+        queueService.enqueue(item);
+    }
+
+    @GetMapping("/dequeue")
+    public String dequeue() {
+        return queueService.dequeue();
+    }
+
+    @GetMapping("/size")
+    public int getQueueSize() {
+        return queueService.size();
+    }
 }
