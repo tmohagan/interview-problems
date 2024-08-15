@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * @Service annotation indicates that this class contains business logic.
+ * A controller typically depends on a service to handle the actual business logic.
+ * By annotating it as a service it can be easily injected into other components (like controllers) that require its functionality.
+ */
 @Service
 public class ArraysService {
 
