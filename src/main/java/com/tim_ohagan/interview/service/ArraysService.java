@@ -20,21 +20,28 @@ public class ArraysService {
     */
     public boolean isAnagram1(String s1, String s2) {
         // Remove spaces and convert to lowercase.
+        // Java String type has both .replaceAll() and .toLowerCase(), which function as expected.
         s1 = s1.replaceAll("\\s+", "").toLowerCase();
         s2 = s2.replaceAll("\\s+", "").toLowerCase();
 
         // Check if lengths are equal, a necessary condition for anagrams.
+        // Java String type has a .length() function to return the length of the string.
         if (s1.length() != s2.length()) {
             return false;
         }
+        // Want to sort the characters in the Strings, but there is no way to sort the characters in a Java String type.
+        // But Strings are basically just arrays of characters, and arrays can be sorted.
+        // Convert strings to character arrays.
+        // Java String type does have a .toCharArray() function that we can use to create new char arrays.
+        // And the java.util.Arrays class has a .sort() function we can use to sort those arrays.
 
-        // Convert strings to character arrays and sort.
         char[] charArray1 = s1.toCharArray();
         char[] charArray2 = s2.toCharArray();
         Arrays.sort(charArray1);
         Arrays.sort(charArray2);
 
         // Compare sorted character arrays.
+        // java.util.Arrays has an .equals() function to return if two arrays are equal
         return Arrays.equals(charArray1, charArray2);
     }
 
@@ -52,19 +59,54 @@ public class ArraysService {
         }
 
         // Create counting dictionary.
+        /*
+         * Map<Character, Integer> count: This part declares a variable named count that will hold a map.
+         *  A Map is a data structure that stores key-value pairs.
+         *  In this case, the keys will be characters (Character) and the values will be integers (Integer).
+         *
+         * new HashMap<>();: This part creates a new instance of a HashMap and assigns it to the count variable.
+         *   A HashMap is a specific implementation of a Map that uses a hash table for efficient storage and retrieval.
+         */
         Map<Character, Integer> count = new HashMap<>();
 
         // Fill dictionary for first string (add counts).
+        /*
+         * str1.toCharArray() converts the string str1 into an array of characters
+         * The for loop then iterates over each character in this array, assigning each character to the variable letter in each iteration.
+         */
         for (char letter : str1.toCharArray()) {
+            /*
+             * count.getOrDefault(letter, 0):
+             *   For the count map, returns the value (occurrence counts) mapped to the specified key (letter),
+             *   or 0 if the key (letter) doesn't yet have any value (occurrence counts) mapped to it.
+             *
+             * count.put(letter, ...):
+             *   This part adds or updates the value (occurrence counts) for the  key (character letter) in the count map.
+             * 
+             * Essentiall, find out what the current value (occurrence counts) for each key (letter) and add 1 to the value mapped to that key
+             */
             count.put(letter, count.getOrDefault(letter, 0) + 1);
         }
 
         // Fill dictionary for second string (subtract counts).
+        /*
+         * The above fills a Map corelating key (letters) value (letter occurrence counts) for the first string.
+         * Use the for loop to iterate over ever character in the second string.
+         * For each character, find it as the Key in the map populated above, then deduct one from it's value
+         * 
+         * Essentially, there is a table (map) with letters (key) and occourence counts of that letter (value) from the first string.
+         * This second loop uses the second string to deduct that counts of each letter that was identified by the first loop.
+         */
         for (char letter : str2.toCharArray()) {
             count.put(letter, count.getOrDefault(letter, 0) - 1);
         }
 
         // Check that all counts are 0.
+        /*
+         * Iterate over each value in the count map and store the value (letter occurrence counts) into the value varable
+         * If the second string letter occurrence counts should have negated all the first string letter occurrence counts if they are the same,
+         * the remaining value for all letter occurrence counts should be 0, otherwise they have different occurrences of letters.
+         */
         for (int value : count.values()) {
             if (value != 0) {
                 return false;
